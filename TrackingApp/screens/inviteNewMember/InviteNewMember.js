@@ -26,15 +26,15 @@ class InviteNewMember extends Component {
                 style: { color: "gray", fontSize: 25 }
               }}
             />
-
-              <Avatar rounded icon={{ name: "group-add" }} />
-     <ListItem
-     containerStyle={{width: '60%',marginLeft: '20%'}}
-        key={1}
-        leftAvatar={{ source: { uri: 'https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png' },size: 30 }}
-   
-        title={'Invite New Members'}
-      />
+            <View style={styles.centerComp}>
+              <Avatar overlayContainerStyle={{backgroundColor: 'transparent'}} size={300} icon={{ name: "group-add",color: 'lightgray' }} />
+    <Text style={styles.shareCodeTxt}>Share this code with people you want to join your circle</Text>
+    <Text style={styles.textCode}>M3-7L-DP</Text>
+           
+           
+           
+            </View>
+           
               <Button title={'Leave Circle'} />
             </View> 
          );
@@ -50,6 +50,26 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    textCode: {
+      textAlign: 'center',
+      color: 'green',
+      fontSize: 20
+    },
+    centerComp: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 50,
+      marginBottom: 50
+    },
+    shareCodeTxt: {
+      paddingLeft: 50,
+      paddingRight: 50,
+      marginTop: -100,
+      fontSize: 20,
+      textAlign: 'center',
+      color: 'gray'
     },
     headerStyle: {
         borderWidth: 1,
