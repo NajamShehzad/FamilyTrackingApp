@@ -5,7 +5,8 @@ exports = module.exports = function (app, mongoose) {
     let UserSchema = new Schema({
         email: {
             type: String,
-            required: true
+            required: true,
+            unique: true
         },
         password: {
             type: String,
@@ -21,7 +22,13 @@ exports = module.exports = function (app, mongoose) {
         },
         pictureUrl: {
             type: String
-        }
+        },
+        latitude: {
+            type: String,
+        },
+        longitude: {
+            type: String,
+        },
     });
     app.db.model('User', UserSchema);
 }
