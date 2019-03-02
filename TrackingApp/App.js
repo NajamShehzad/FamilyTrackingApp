@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Login from './screens/login/Login';
+import Route from './router/Route';
 
 export default class App extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+      <View style={{width: '100%',height: '100%'}}>
+      <Route />
       </View>
     );
   }

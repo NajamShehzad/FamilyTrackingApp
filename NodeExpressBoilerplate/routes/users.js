@@ -21,7 +21,7 @@ exports = module.exports = function (app, mongoose) {
 
 
 
-  /* GET users listing. */
+  /* POST users listing. */
   router.post('/signup', async function (req, res, next) {
     try {
       let body = {
