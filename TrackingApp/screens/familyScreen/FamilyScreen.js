@@ -15,7 +15,7 @@ class FamilyScreen extends Component {
             <Header
             containerStyle={styles.headerStyle}
             backgroundColor='white'
-            leftComponent={<TouchableOpacity onPress={() => {Actions.allmessages()}}> 
+            leftComponent={<TouchableOpacity onPress={() => {Actions.pop()}}> 
                <Icon
               name="angle-left"
               type="font-awesome"
@@ -27,20 +27,25 @@ class FamilyScreen extends Component {
               }}
             />
                <ListItem
+               onPress={() => {Actions.inviteNewMember()}}
         key={1}
-        leftAvatar={{ source: { uri: 'https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png' } }}
+        leftAvatar={{ source: { uri: 'https://avatarmyself.com/img/pictures/jamie_after.jpg' } }}
    
         title={'Zeeshan'}
         subtitle={'owner'}
       />
-     <ListItem
+      <TouchableOpacity
+       onPress={() => {Actions.inviteNewMember()}} style={{backgroundColor: 'white',width: '100%'}}>
+      <ListItem
      containerStyle={{width: '60%',marginLeft: '20%'}}
         key={1}
         leftAvatar={{ source: { uri: 'https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png' },size: 30 }}
    
         title={'Invite New Members'}
       />
-              <Button title={'Leave Circle'} />
+      </TouchableOpacity>
+    
+              <Button buttonStyle={styles.leaveCircleBtn} title={'Leave Circle'} />
             </View> 
          );
     }
@@ -49,12 +54,22 @@ class FamilyScreen extends Component {
 
 export default FamilyScreen;
 
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'center'
+    },
+    leaveCircleBtn: {
+        marginTop: 500,
+        height: 50,
+        backgroundColor: 'gray',
+        borderRadius: 20,
+        width: 150,
+        width: '40%',
+        marginLeft: '30%'
     },
     headerStyle: {
         borderWidth: 1,

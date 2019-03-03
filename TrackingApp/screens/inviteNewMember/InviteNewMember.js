@@ -15,7 +15,7 @@ class InviteNewMember extends Component {
         <Header
           containerStyle={styles.headerStyle}
           backgroundColor='white'
-          leftComponent={<TouchableOpacity onPress={() => { Actions.allmessages() }}>
+          leftComponent={<TouchableOpacity onPress={() => { Actions.pop() }}>
             <Icon
               name="angle-left"
               type="font-awesome"
@@ -30,12 +30,9 @@ class InviteNewMember extends Component {
           <Avatar overlayContainerStyle={{ backgroundColor: 'transparent' }} size={300} icon={{ name: "group-add", color: 'lightgray' }} />
           <Text style={styles.shareCodeTxt}>Share this code with people you want to join your circle</Text>
           <Text style={styles.textCode}>M3-7L-DP</Text>
-
-
-
         </View>
 
-        <Button title={'Leave Circle'} />
+        <Button buttonStyle={styles.sendBtn} title={'SEND'} />
       </View>
     );
   }
@@ -55,6 +52,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'green',
     fontSize: 20
+  },
+  sendBtn: {
+    marginTop: 20,
+    height: 50,
+    backgroundColor: '#f74069',
+    borderRadius: 20,
+    width: 150,
+    width: '40%',
+    marginLeft: '30%'
   },
   centerComp: {
     display: 'flex',

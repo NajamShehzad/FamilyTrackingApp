@@ -36,7 +36,7 @@ class HeaderBar extends Component {
         />
         </TouchableOpacity>}
         rightComponent={
-          <TouchableOpacity onPress={() => { Actions.allmessages() }}>
+          <TouchableOpacity onPress={() => { Actions.joinCircle() }}>
             <Icon
               name="group-add"
               size={40}
@@ -47,7 +47,7 @@ class HeaderBar extends Component {
       />
       {dropMenu && <ListItem
         
-        containerStyle={{borderColor: 'lightgray',borderWidth: 1}}
+        containerStyle={{borderColor: 'lightgray',borderBottomWidth: 1}}
         leftAvatar={<TouchableOpacity style={styles.inlineIcons} onPress={() => { Actions.allmessages() }}>
           <Icon
             name="person-outline"
@@ -56,7 +56,7 @@ class HeaderBar extends Component {
           /><Text>1</Text>
         </TouchableOpacity>}
         rightAvatar={
-          <TouchableOpacity onPress={() => { Actions.allmessages() }}>
+          <TouchableOpacity onPress={() => { Actions.familyScreen() }}>
             <Icon
               name="settings"
               color="gray"
@@ -66,7 +66,7 @@ class HeaderBar extends Component {
         title={'Muneeb Khan'}
       />}
       {dropMenu && <ListItem
-       
+       onPress={() => Actions.createCircleScreen()}
         containerStyle={{borderColor: 'lightgray',borderWidth: 1}}
         leftAvatar={{ source: { uri: 'https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png' }, size: 30 }}
         title={'Create Circle'}

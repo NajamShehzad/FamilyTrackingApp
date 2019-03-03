@@ -11,6 +11,7 @@ import CreateCircle from "../screens/createCircle/CreateCircle";
 import FamilyScreen from "../screens/familyScreen/FamilyScreen";
 import inviteNewMember from "../screens/inviteNewMember/InviteNewMember";
 import HeaderBar from '../components/header/HeaderBar'
+import JoinCircle from "../screens/joinCircle/JoinCircle";
 
 // const ElementHeader = props => {
 //   console.log(props);
@@ -86,38 +87,37 @@ class Route extends Component {
           <Scene
             key="loginPage"
             component={Login}
-            title="Login"
             hideNavBar={true}
           />
           <Scene
             key="signupPage"
             component={Signup}
-            title="Signup"
             hideNavBar={true}
           />
           <Scene
             initial={true}
             key="homeScreen"
             component={HomeScreen}
-            title="Signup"
           // hideNavBar={true}
           />
           <Scene
             key="createCircleScreen"
             component={CreateCircle}
-            title="Signup"
             hideNavBar={true}
           />
           <Scene
             key="familyScreen"
             component={FamilyScreen}
-            title="Signup"
             hideNavBar={true}
           />
           <Scene
             key="inviteNewMember"
             component={inviteNewMember}
-            title="Signup"
+            hideNavBar={true}
+          />
+          <Scene
+            key="joinCircle"
+            component={JoinCircle}
             hideNavBar={true}
           />
         </Stack>
