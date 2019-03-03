@@ -32,7 +32,7 @@ exports = module.exports = function (app, mongoose) {
 
     router.post('/join', async function (req, res, next) {
         try {
-            let body = req.body.data;
+            let body = req.body;
             if (!body.circlePassword) {
                 return res.send({ success: false, message: "Please Provide CirclePassword" });
             }

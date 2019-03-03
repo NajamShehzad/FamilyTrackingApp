@@ -24,7 +24,7 @@ class JoinCircle extends Component {
       }
     joinCircle = async () => {
         const { passKey, userData } = this.state;
-        alert(passKey);
+        // alert(passKey);
         try {
             let join = await Axios.post(path.JOIN_CIRCLE,{memberId: userData._id,circlePassword: passKey});
             if(join.data.success){
@@ -63,7 +63,7 @@ class JoinCircle extends Component {
                     <Input containerStyle={styles.enterNameInput}
                     onChangeText={(passKey) => {
                         if(passKey.length == 8){
-                            this.setState({disablebtn: false,passKey})
+                            this.setState({passKey,disablebtn: false})
                         }
                         else{
                             this.setState({ passKey,disablebtn: true })

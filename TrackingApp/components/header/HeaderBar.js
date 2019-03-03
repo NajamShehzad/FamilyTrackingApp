@@ -48,7 +48,7 @@ class HeaderBar extends Component {
           containerStyle={styles.containerStyle}
           backgroundColor="white"
           leftComponent={
-            <TouchableOpacity onPress={() => { Actions.allmessages() }}>
+            <TouchableOpacity onPress={() => { Actions.drawerOpen() }}>
               <Icon
                 name="menu"
                 size={40}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Stack, Scene, Tabs, Actions } from "react-native-router-flux";
+import { Router, Stack, Scene, Tabs, Drawer, Actions } from "react-native-router-flux";
 import { TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import { Icon } from "react-native-elements";
 import {  ListItem } from "react-native-elements";
@@ -10,79 +10,35 @@ import HomeScreen from '../screens/homeScreen/HomeScreen';
 import CreateCircle from "../screens/createCircle/CreateCircle";
 import FamilyScreen from "../screens/familyScreen/FamilyScreen";
 import inviteNewMember from "../screens/inviteNewMember/InviteNewMember";
-import HeaderBar from '../components/header/HeaderBar'
-import JoinCircle from "../screens/joinCircle/JoinCircle";
+import HeaderBar from '../components/header/HeaderBar';
+import JoinCircle from "../screens/joinCircle/JoinCircle";   
 
-// const ElementHeader = props => {
-//   console.log(props);
+const SideMenu = props => {
+  console.log(props);
 
-//   return (
-//     <View>
-//       <Header
-//         containerStyle={styles.containerStyle}
-//         backgroundColor="white"
-//         leftComponent={
-//           <TouchableOpacity onPress={() => { Actions.allmessages() }}>
-//             <Icon
-//               name="menu"
-//               size={40}
-//               color="gray"
-//             />
-//           </TouchableOpacity>
-
-//         }
-//         centerComponent={<TouchableOpacity onPress={() => this.setState({dropMenu: !dropMenu})} style={styles.inlineIcons}><Text style={{fontSize: 25,marginRight: 5}}>Family</Text>
-//         <Icon
-//           name="angle-up"
-//           size={20}
-//           type='font-awesome'
-//           color="black"
-//         />
-//         </TouchableOpacity>}
-//         rightComponent={
-//           <TouchableOpacity onPress={() => { Actions.allmessages() }}>
-//             <Icon
-//               name="group-add"
-//               size={40}
-//               color="gray"
-//             />
-//           </TouchableOpacity>
-//         }
-//       />
-//       <ListItem
-//         key={1}
-//         containerStyle={{borderColor: 'lightgray',borderWidth: 1}}
-//         leftAvatar={<TouchableOpacity style={styles.inlineIcons} onPress={() => { Actions.allmessages() }}>
-//           <Icon
-//             name="person-outline"
-//             type="AntDesign"
-//             color="gray"
-//           /><Text>1</Text>
-//         </TouchableOpacity>}
-//         rightAvatar={
-//           <TouchableOpacity onPress={() => { Actions.allmessages() }}>
-//             <Icon
-//               name="settings"
-//               color="gray"
-//             />
-//           </TouchableOpacity>
-//         }
-//         title={'Muneeb Khan'}
-//       />
-//       <ListItem
-//         key={1}
-//         containerStyle={{borderColor: 'lightgray',borderWidth: 1}}
-//         leftAvatar={{ source: { uri: 'https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png' }, size: 30 }}
-//         title={'Create Circle'}
-//       />
-//     </View>
-//   );
-// };
+  return (
+    <View>
+      <ListItem
+       onPress={() => { AsyncStorage.removeItem('userData');Actions.replace('loginPage') }}
+        containerStyle={{borderColor: 'lightgray',borderWidth: 1}}
+        leftAvatar={<TouchableOpacity style={styles.inlineIcons}>
+          <Icon
+            name="sign-out"
+            type='font-awesome'
+            color="gray"
+          />
+        </TouchableOpacity>}
+        title={'LOGOUT'}
+      />
+    </View>
+  );
+};
 class Route extends Component {
   render() {
 
     return (
       <Router navBar={HeaderBar}>
+      
         <Stack key="root">
           <Scene
             initial={true}
@@ -90,16 +46,20 @@ class Route extends Component {
             component={Login}
             hideNavBar={true}
           />
+
+
           <Scene
             key="signupPage"
             component={Signup}
             hideNavBar={true}
           />
+          <Drawer key="homeScreen" drawer contentComponent={SideMenu} drawerWidth={220}>
           <Scene
-            key="homeScreen"
+            // key="homeScreen"
             component={HomeScreen}
-          // hideNavBar={true}
+          hideNavBar={true}
           />
+          </Drawer>
           <Scene
             key="createCircleScreen"
             component={CreateCircle}
@@ -121,6 +81,7 @@ class Route extends Component {
             hideNavBar={true}
           />
         </Stack>
+        
       </Router>
     );
   }
