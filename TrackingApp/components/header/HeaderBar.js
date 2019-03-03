@@ -45,32 +45,35 @@ class HeaderBar extends Component {
           </TouchableOpacity>
         }
       />
-      {dropMenu && <ListItem
+     {dropMenu && <View style={styles.dropMenu}>
+ <ListItem
         
-        containerStyle={{borderColor: 'lightgray',borderBottomWidth: 1}}
-        leftAvatar={<TouchableOpacity style={styles.inlineIcons} onPress={() => { Actions.allmessages() }}>
-          <Icon
-            name="person-outline"
-            type="AntDesign"
-            color="gray"
-          /><Text>1</Text>
-        </TouchableOpacity>}
-        rightAvatar={
-          <TouchableOpacity onPress={() => { Actions.familyScreen() }}>
-            <Icon
-              name="settings"
-              color="gray"
-            />
-          </TouchableOpacity>
-        }
-        title={'Muneeb Khan'}
-      />}
-      {dropMenu && <ListItem
-       onPress={() => Actions.createCircleScreen()}
-        containerStyle={{borderColor: 'lightgray',borderWidth: 1}}
-        leftAvatar={{ source: { uri: 'https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png' }, size: 30 }}
-        title={'Create Circle'}
-      />}
+  containerStyle={{borderColor: 'lightgray',borderBottomWidth: 1}}
+  leftAvatar={<TouchableOpacity style={styles.inlineIcons} onPress={() => { Actions.allmessages() }}>
+    <Icon
+      name="person-outline"
+      type="AntDesign"
+      color="gray"
+    /><Text>1</Text>
+  </TouchableOpacity>}
+  rightAvatar={
+    <TouchableOpacity onPress={() => { Actions.familyScreen() }}>
+      <Icon
+        name="settings"
+        color="gray"
+      />
+    </TouchableOpacity>
+  }
+  title={'Muneeb Khan'}
+/>
+ <ListItem
+ onPress={() => Actions.createCircleScreen()}
+  containerStyle={{borderColor: 'lightgray',borderWidth: 1}}
+  leftAvatar={{ source: { uri: 'https://cdn4.iconfinder.com/data/icons/keynote-and-powerpoint-icons/256/Plus-128.png' }, size: 30 }}
+  title={'Create Circle'}
+/>
+        </View>}
+      
     </View>
       );
     }
@@ -89,6 +92,11 @@ class HeaderBar extends Component {
       elevation: 5,
       padding: 0,
       height: 80
+    },
+    dropMenu: {
+      position: 'absolute',
+      width: '100%',
+      top: 80
     },
     inlineIcons: {
       display: 'flex',
