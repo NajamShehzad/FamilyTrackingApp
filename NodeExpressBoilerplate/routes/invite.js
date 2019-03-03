@@ -25,8 +25,9 @@ exports = module.exports = function (app, mongoose) {
             if (!CircleObj) {
                 return res.send({ success: false, message: "No record found please check the circle Id" });
             }
-            sendNotification(UserObj, CircleObj, req.body.senderName);
-            sendEmail(UserObj, CircleModel, req.body.senderName);
+            console.log(CircleObj)
+            // sendNotification(UserObj, CircleObj, req.body.senderName);
+            sendEmail(UserObj, CircleObj, req.body.senderName);
             res.send({ success: true, message: "Invitation Send" })
         } catch (err) {
             res.send({ success: false, message: err.message })
@@ -77,6 +78,7 @@ exports = module.exports = function (app, mongoose) {
 
 
     function sendEmail(UserObj, CircleObj, senderName) {
+        console.log(CircleObj);
         const template = `
             <div>
                 <div><h1>Tracking App</h1></div>
@@ -99,7 +101,7 @@ exports = module.exports = function (app, mongoose) {
             html: template
         };
         sgMail.send(emailContent).then((data) => {
-            app.logLevel1(`Email Sent to ${UserObj.email}`, "");
+            console.log(`Email Sent to ${UserObj.email}`, "");
         })
     }
 
