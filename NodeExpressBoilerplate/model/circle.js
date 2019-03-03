@@ -15,7 +15,7 @@ exports = module.exports = function (app, mongoose) {
             type: String,
             // required: true
         },
-        logitude: {
+        longitude: {
             type: String,
             // required: true
         },

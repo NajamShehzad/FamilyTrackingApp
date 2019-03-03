@@ -9,5 +9,6 @@ exports = module.exports = function (app, mongoose) {
   require('./home')(app, mongoose);
   require('./circle')(app, mongoose);
   require('./invite')(app, mongoose);
+  require('./location')(app, mongoose);
 
 };
