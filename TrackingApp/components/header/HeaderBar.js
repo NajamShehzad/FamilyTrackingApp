@@ -83,7 +83,7 @@ class HeaderBar extends Component {
               /><Text>{val.circleMembers.length}</Text>
             </TouchableOpacity>}
             rightAvatar={
-              <TouchableOpacity onPress={() => { Actions.familyScreen() }}>
+              <TouchableOpacity onPress={() => { Actions.familyScreen({circleData: val}) }}>
                 <Icon
                   name="settings"
                   color="gray"
