@@ -10,8 +10,8 @@ import { Actions } from "react-native-router-flux";
 class FamilyScreen extends Component {
     state = {  }
     render() { 
-      console.log(this.props.circleData);
-      const { circleMembers, ownerId } = this.props.circleData;
+      const { circleMembers, ownerId, circleName, password } = this.props.circleData;
+      const { circleData } = this.props;
         return ( 
             <View style={{width: '100%',height: '100%'}}>
             <Header
@@ -24,11 +24,11 @@ class FamilyScreen extends Component {
             />
             </TouchableOpacity>}
             centerComponent={{
-                text: 'Family',
+                text: circleName,
                 style: { color: "gray", fontSize: 25 }
               }}
             />
-               {circleMembers.length > 0  && circleData.map((val,index) => (<ListItem
+               {circleMembers.length > 0  && circleMembers.map((val,index) => (<ListItem
                onPress={() => {Actions.inviteNewMember()}}
         key={index}
         leftAvatar={{ source: { uri: val.pictureUrl } }}
@@ -37,7 +37,7 @@ class FamilyScreen extends Component {
         subtitle={(ownerId == val.memberId) ? 'Owner' : 'Member' }
                />))}
       <TouchableOpacity
-       onPress={() => {Actions.inviteNewMember()}} style={{backgroundColor: 'white',width: '100%'}}>
+       onPress={() => {Actions.inviteNewMember({circleData})}} style={{backgroundColor: 'white',width: '100%'}}>
       <ListItem
      containerStyle={{width: '60%',marginLeft: '20%'}}
         key={1}

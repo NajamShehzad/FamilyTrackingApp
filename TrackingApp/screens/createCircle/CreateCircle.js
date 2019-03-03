@@ -27,7 +27,7 @@ class CreateCircle extends Component {
                     }}
                 />
                 <View style={styles.centerComp}>
-                        
+
                     <Text style={styles.enterName}>Enter your circle name:</Text>
                     <Input containerStyle={styles.enterNameInput} placeholder={'Enter Circle name'} />
                     <Button buttonStyle={styles.enterNameBtn} title='CREATE' />
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         fontSize: 20,
         color: 'gray',
-        fontWeight: 'bold'  
+        fontWeight: 'bold'
     },
     enterNameInput: {
         width: '70%',

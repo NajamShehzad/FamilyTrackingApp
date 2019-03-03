@@ -10,6 +10,7 @@ import { Actions } from "react-native-router-flux";
 class InviteNewMember extends Component {
   state = {}
   render() {
+    const { password } = this.props.circleData;
     return (
       <View style={{ width: '100%', height: '100%' }}>
         <Header
@@ -29,7 +30,7 @@ class InviteNewMember extends Component {
         <View style={styles.centerComp}>
           <Avatar overlayContainerStyle={{ backgroundColor: 'transparent' }} size={300} icon={{ name: "group-add", color: 'lightgray' }} />
           <Text style={styles.shareCodeTxt}>Share this code with people you want to join your circle</Text>
-          <Text style={styles.textCode}>M3-7L-DP</Text>
+          <Text style={styles.textCode}>{password}</Text>
         </View>
 
         <Button buttonStyle={styles.sendBtn} title={'SEND'} />

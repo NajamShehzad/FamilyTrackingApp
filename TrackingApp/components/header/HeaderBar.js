@@ -13,12 +13,13 @@ class HeaderBar extends Component {
 
   state = {
     dropMenu: false,
-    userData: null
+    userData: null,
+    circleArray: []
   }
   componentDidMount() {
     Provider._asyncGetUserData().then(res => {
       this.setState({ userData: res })
-     this.getAllCircles();
+      this.getAllCircles();
     })
   }
   getAllCircles = async () => {
@@ -70,29 +71,29 @@ class HeaderBar extends Component {
           }
         />
         {dropMenu && <View style={styles.dropMenu}>
-          {circleArray.length > 0 && circleArray.map((val,index) =>
-          
-          <ListItem
-            key={index}
-            containerStyle={{ borderColor: 'lightgray', borderBottomWidth: 1 }}
-            leftAvatar={<TouchableOpacity style={styles.inlineIcons}>
-              <Icon
-                name="person-outline"
-                type="AntDesign"
-                color="gray"
-              /><Text>{val.circleMembers.length}</Text>
-            </TouchableOpacity>}
-            rightAvatar={
-              <TouchableOpacity onPress={() => { Actions.familyScreen({circleData: val}) }}>
+          {circleArray.length > 0 && circleArray.map((val, index) =>
+
+            <ListItem
+              key={index}
+              containerStyle={{ borderColor: 'lightgray', borderBottomWidth: 1 }}
+              leftAvatar={<TouchableOpacity style={styles.inlineIcons}>
                 <Icon
-                  name="settings"
+                  name="person-outline"
+                  type="AntDesign"
                   color="gray"
-                />
-              </TouchableOpacity>
-            }
-            title={val.circleName}
-          />
-           )}
+                /><Text>{val.circleMembers.length}</Text>
+              </TouchableOpacity>}
+              rightAvatar={
+                <TouchableOpacity onPress={() => { Actions.familyScreen({ circleData: val }) }}>
+                  <Icon
+                    name="settings"
+                    color="gray"
+                  />
+                </TouchableOpacity>
+              }
+              title={val.circleName}
+            />
+          )}
           <ListItem
             onPress={() => Actions.createCircleScreen()}
             containerStyle={{ borderColor: 'lightgray', borderWidth: 1 }}
