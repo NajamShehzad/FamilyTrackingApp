@@ -3,4 +3,5 @@ export default class path {
   
     static SIGNUP = path.BASE_URL + '/signup';
 
+    static LOGIN = path.BASE_URL + '/signin';
   }

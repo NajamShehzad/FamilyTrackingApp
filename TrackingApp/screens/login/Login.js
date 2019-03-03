@@ -5,7 +5,8 @@ import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elemen
 import { Button } from 'react-native-elements';
 import { Actions } from "react-native-router-flux";
 import axios from 'axios';
-
+import path from "../../config/Path";
+import { AsyncStorage } from 'react-native';
 
 export default class Login extends React.Component {
 
@@ -14,6 +15,21 @@ export default class Login extends React.Component {
         password: "",
     }
 
+    _asyncGetUserData = async () => {
+        try {
+          let user = await AsyncStorage.getItem("userData");
+          return JSON.parse(user)
+        } catch (er) {
+          return false;
+        }
+      };
+componentWillMount = () => {
+    this._asyncGetUserData().then(userData => {
+        if(userData){
+            Actions.replace('homeScreen');
+        }
+    }).catch(err => {alert(err.message)})
+}
     signin = async () => {
         try {
 
@@ -22,8 +38,16 @@ export default class Login extends React.Component {
                 email,
                 password
             }
-            let userData = await axios.post('https://d5cf7773.ngrok.io/signin', body);
+            let userData = await axios.post(path.LOGIN, body);
             console.log(userData.data);
+            if(userData.data.success){
+                AsyncStorage.setItem('userData',JSON.stringify(userData.data.data)).then(() => {
+                    Actions.replace('homeScreen');
+                })
+            }
+            else if(!userData.data.success){
+                alert(userData.data.message);
+            }
         } catch (err) {
             console.log(err);
         }
