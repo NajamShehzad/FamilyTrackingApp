@@ -2,14 +2,10 @@ import { MapView as Map12, Notifications, Permissions, Location } from 'expo';
 import React, { Component } from "react";
 import MapView, { Circle, Polyline, Marker } from 'react-native-maps'
 import { StyleSheet, Text, View } from 'react-native';
-//Your Api Here
-// import { api } from '../../Api/mapApi';
-// import MapViewDirections from 'react-native-maps-directions';
-// const GOOGLE_MAPS_APIKEY = api;
+import { connenct } from 'react-redux';
 
 
-
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -110,7 +106,7 @@ export default class HomeScreen extends Component {
                         coordinate={destination}
                     />
                 }
-                {usersArray.map((data,index) => {
+                {usersArray.map((data, index) => {
                     return (
                         <Marker
                             key={index}
@@ -122,3 +118,18 @@ export default class HomeScreen extends Component {
         )
     }
 }
+
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.authReducers.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateUser: (user) => dispatch(updateUser(user))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
