@@ -70,7 +70,8 @@ exports = module.exports = function (app, mongoose) {
         return res.send({ success: false, message: "email or password in not correct" });
       }
 
-      saveAuthToken(res, UserObj);
+      // saveAuthToken(res, UserObj);
+      res.send({ success: true, data: UserObj });
 
     } catch (err) {
       res.send({ success: false, message: err.message })
