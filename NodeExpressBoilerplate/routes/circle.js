@@ -2,6 +2,7 @@ exports = module.exports = function (app, mongoose) {
 
     var express = require('express');
     var router = express.Router();
+    var randomize = require('randomatic');
 
     router.post('/create', async function (req, res, next) {
         try {
@@ -16,9 +17,7 @@ exports = module.exports = function (app, mongoose) {
             if (!body.circleName) {
                 return res.send({ success: false, message: "Please Provide circleName" });
             }
-            if (!body.password) {
-                return res.send({ success: false, message: "Please Provide password" });
-            }
+            body.password = randomize('Aa0', 8);
             body.circleMembers = [];
 
             let userObj = await getUserInfo(body.ownerId);
