@@ -29,6 +29,9 @@ exports = module.exports = function (app, mongoose) {
         longitude: {
             type: String,
         },
+        expoToken: {
+            type: String
+        }
     });
     app.db.model('User', UserSchema);
 }
