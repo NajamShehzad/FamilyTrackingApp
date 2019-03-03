@@ -49,6 +49,18 @@ exports = module.exports = function (app, mongoose) {
             res.send({ success: false, message: err.message })
         }
 
+    });
+
+    router.post('/getall', async function (req, res, next) {
+        try{
+
+            let CircleModel = app.db.models.Circle;
+            let CircleArray = await CircleModel.find({'circleMembers.memberId':req.body.userId});
+            res.send({success:true,data:CircleArray})
+        }catch(err){
+            res.send({ success: false, message: err.message })
+        }
+
     })
 
 
