@@ -6,7 +6,6 @@ exports = module.exports = function (app, mongoose) {
 
     router.post('/create', async function (req, res, next) {
         try {
-
             let body = req.body;
             if (!body.ownerId) {
                 return res.send({ success: false, message: "Please Provide OwnerId" });

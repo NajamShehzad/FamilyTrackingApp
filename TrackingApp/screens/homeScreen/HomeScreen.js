@@ -1,6 +1,6 @@
 import { MapView as Map12, Notifications, Permissions, Location } from 'expo';
 import React, { Component } from "react";
-import MapView, { Circle, Polyline } from 'react-native-maps'
+import MapView, { Circle, Polyline, Marker } from 'react-native-maps'
 import { StyleSheet, Text, View } from 'react-native';
 //Your Api Here
 // import { api } from '../../Api/mapApi';
@@ -19,7 +19,8 @@ export default class HomeScreen extends Component {
             routes: null,
             coords: null,
             origin: null,
-            destination: { latitude: 24.946294, longitude: 67.032095 }
+            destination: null,
+            usersArray: []
         };
     }
 
@@ -27,6 +28,9 @@ export default class HomeScreen extends Component {
     componentDidMount() {
 
         this._getLocationAsync();
+        setTimeout(() => {
+            // this.setState({ destination: { latitude: 24.946294, longitude: 67.032095 } })
+        }, 5000)
 
     }
 
@@ -67,6 +71,19 @@ export default class HomeScreen extends Component {
             </ Circle>
         )
     }
+    showMarkers() {
+        this.setState({
+            usersArray: [
+                { destination: { latitude: 24.986194, longitude: 67.092095 } },
+                { destination: { latitude: 24.941293, longitude: 67.031095 } },
+                { destination: { latitude: 24.946293, longitude: 67.032094 } },
+                { destination: { latitude: 24.976274, longitude: 67.037095 } },
+                { destination: { latitude: 24.946864, longitude: 67.032095 } },
+                { destination: { latitude: 24.946998, longitude: 67.085095 } },
+                { destination: { latitude: 24.946291, longitude: 67.085095 } },
+            ]
+        })
+    }
 
     handleChange(userLocation) {
         console.log("User Location ===>", userLocation);
@@ -75,16 +92,32 @@ export default class HomeScreen extends Component {
     }
 
     render() {
-        const { location, marker, origin, destination } = this.state;
+        const { location, marker, origin, destination, usersArray } = this.state;
         console.log(" ====>>", location);
         return (
             <MapView
                 showsUserLocation
                 followsUserLocation
+                onMapReady={() => {
+                    this.showMarkers()
+                }}
                 onUserLocationonChange={(userLocation => this.handleChange(userLocation))}
                 style={{ flex: 1 }}
                 region={{ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
             >
+                {destination &&
+                    <Marker
+                        coordinate={destination}
+                    />
+                }
+                {usersArray.map((data,index) => {
+                    return (
+                        <Marker
+                            key={index}
+                            coordinate={data.destination}
+                        />
+                    )
+                })}
             </MapView>
         )
     }
