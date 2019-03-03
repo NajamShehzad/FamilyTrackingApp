@@ -18,10 +18,12 @@ class HeaderBar extends Component {
   }
   componentDidMount() {
     Provider._asyncGetUserData().then(res => {
-      this.setState({ userData: res })
-      this.getAllCircles();
+      this.setState({ userData: res },() => {
+        this.getAllCircles();
+      })
     })
   }
+
   getAllCircles = async () => {
     try {
       const { userData } = this.state;
@@ -35,6 +37,9 @@ class HeaderBar extends Component {
       console.log(err)
     }
   }
+
+
+
   render() {
     const { dropMenu, circleArray } = this.state;
     return (
@@ -52,9 +57,9 @@ class HeaderBar extends Component {
             </TouchableOpacity>
 
           }
-          centerComponent={<TouchableOpacity onPress={() => this.setState({ dropMenu: !dropMenu })} style={styles.inlineIcons}><Text style={{ fontSize: 25, marginRight: 5 }}>Family</Text>
+          centerComponent={<TouchableOpacity onPress={() => this.setState({ dropMenu: !dropMenu },() => {this.getAllCircles()})} style={styles.inlineIcons}><Text style={{ fontSize: 25, marginRight: 5 }}>Family</Text>
             <Icon
-              name={`${dropMenu ? 'angle-down' : 'angle-up'}`}
+              name={`${dropMenu ? 'angle-up' : 'angle-down'}`}
               size={20}
               type='font-awesome'
               color="black"

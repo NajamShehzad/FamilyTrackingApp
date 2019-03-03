@@ -4,12 +4,46 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { FormLabel, FormInput, FormValidationMessage, Icon, Input, Header } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { Actions } from "react-native-router-flux";
+import Provider from '../../config/Provider';
+import Axios from 'axios';
+import path from '../../config/Path';
 
 
 
 class CreateCircle extends Component {
-    state = {}
+    state = {
+        userData: null,
+        circleName: ''
+    }
+
+    componentDidMount() {
+        Provider._asyncGetUserData().then(res => {
+          this.setState({ userData: res });
+        })
+      }
+
+      createCirle = async () => {
+        const { userData, circleName } = this.state;
+        console.log({ownerId: userData._id,ownerName: userData.fullName,circleName })
+        try{
+            let createCircle = await Axios.post(path.CREATE_CIRCLE,{ownerId: userData._id,ownerName: userData.fullName,circleName });
+            if(createCircle.data.success){
+                console.log(createCircle.data.data);
+                alert('Circle created');
+                Actions.replace('homeScreen');
+            }
+            else if(!createCircle.data.success){
+                alert(createCircle.data.message)
+            }
+        }
+        catch(err){
+            alert(err.message)
+        }
+        
+      }
+
     render() {
+        const { circleName } = this.state;
         return (
             <View style={{ width: '100%', height: '100%' }}>
                 <Header
@@ -29,8 +63,11 @@ class CreateCircle extends Component {
                 <View style={styles.centerComp}>
 
                     <Text style={styles.enterName}>Enter your circle name:</Text>
-                    <Input containerStyle={styles.enterNameInput} placeholder={'Enter Circle name'} />
-                    <Button buttonStyle={styles.enterNameBtn} title='CREATE' />
+                    <Input containerStyle={styles.enterNameInput}
+                    onChangeText={(circleName) => this.setState({ circleName })}
+                    value={circleName}
+                    placeholder={'Enter Circle name'} />
+                    <Button buttonStyle={styles.enterNameBtn} onPress={() => {this.createCirle()}} title='CREATE' />
                 </View>
             </View>
         );

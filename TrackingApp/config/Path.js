@@ -6,4 +6,6 @@ export default class path {
     static LOGIN = path.BASE_URL + '/signin';
     
     static GET_ALL_CIRCLES = path.BASE_URL + '/user/circle/getall';
+    
+    static CREATE_CIRCLE = path.BASE_URL + '/user/circle/create';
   }
