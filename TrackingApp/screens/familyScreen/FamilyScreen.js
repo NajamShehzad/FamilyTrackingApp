@@ -11,7 +11,7 @@ class FamilyScreen extends Component {
     state = {  }
     render() { 
       console.log(this.props.circleData);
-      const { circleData, ownerId } = this.props.circleData;
+      const { circleMembers, ownerId } = this.props.circleData;
         return ( 
             <View style={{width: '100%',height: '100%'}}>
             <Header
