@@ -4,12 +4,51 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { FormLabel, FormInput, FormValidationMessage, ListItem, Icon, Input, Header, Avatar } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { Actions } from "react-native-router-flux";
+import Provider from '../../config/Provider';
+import Axios from 'axios';
+import path from '../../config/Path';
 
 
 
 class InviteNewMember extends Component {
-  state = {}
+  state = {
+    email: '',
+    userData: null
+  }
+
+  componentDidMount() {
+    Provider._asyncGetUserData().then(res => {
+      this.setState({ userData: res });
+    })
+  }
+
+  sendInvite = async () => {
+    const { userData, email } = this.state;
+    const { _id } = this.props.circleData;
+    if(email){
+      console.log({circleId: _id,email,senderName: userData.fullName})
+      try{
+       let inviteUser = await Axios.post(path.INVITE_USER,{circleId: _id,email,senderName: userData.fullName});
+       if(inviteUser.data.success){
+        
+        this.setState({email: ''},() => {
+          alert(inviteUser.data.message);
+        })
+       }
+       else{
+         alert(inviteUser.data.message);
+       }
+      }
+      catch (err){
+        alert(err.message);
+      }
+    }
+    else{
+      alert('Please provide an Email.')
+    }
+  }
   render() {
+    const { email } = this.state;
     const { password } = this.props.circleData;
     return (
       <View style={{ width: '100%', height: '100%' }}>
@@ -31,11 +70,14 @@ class InviteNewMember extends Component {
           <Avatar overlayContainerStyle={{ backgroundColor: 'transparent' }} size={300} icon={{ name: "group-add", color: 'lightgray' }} />
           <Text style={styles.shareCodeTxt}>Share this code with people you want to join your circle</Text>
           <Text style={styles.textCode}>{password}</Text>
-        <Input containerStyle={styles.invitedpersonEmail} placeholder={'XXXXXX'} />
+        <Input containerStyle={styles.invitedpersonEmail}
+                    onChangeText={(email) => this.setState({ email })}
+                    value={email}
+                    placeholder={'Enter Email'} />
         </View>
         
 
-        <Button buttonStyle={styles.sendBtn} title={'SEND'} />
+        <Button buttonStyle={styles.sendBtn} onPress={() => {this.sendInvite()}} title={'SEND'} />
       </View>
     );
   }
@@ -60,6 +102,7 @@ const styles = StyleSheet.create({
       width: 300,
       paddingLeft: 50,
       paddingRight: 50,
+      marginTop: 20
       // backgroundColor: 'blue'
   },
   sendBtn: {

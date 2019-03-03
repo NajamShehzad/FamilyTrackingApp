@@ -4,12 +4,43 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import { FormLabel, FormInput, FormValidationMessage, Icon, Input, Header } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { Actions } from "react-native-router-flux";
+import Axios from 'axios';
+import path from '../../config/Path';
+import Provider from '../../config/Provider';
 
 
 
 class JoinCircle extends Component {
-    state = {}
+    state = {
+        passKey: '',
+        disablebtn: true,
+        userData: null
+    }
+
+    componentDidMount() {
+        Provider._asyncGetUserData().then(res => {
+          this.setState({ userData: res });
+        })
+      }
+    joinCircle = async () => {
+        const { passKey, userData } = this.state;
+        alert(passKey);
+        try {
+            let join = await Axios.post(path.JOIN_CIRCLE,{memberId: userData._id,circlePassword: passKey});
+            if(join.data.success){
+                alert('Added to group successfully');
+                Actions.replace('homeScreen');
+            }
+            else{
+                alert(join.data.message)
+            }
+        }
+        catch (err){
+            alert(err.message);
+        }
+    }
     render() {
+        const { passKey, disablebtn } = this.state;
         return (
             <View style={{ width: '100%', height: '100%' }}>
                 <Header
@@ -29,9 +60,22 @@ class JoinCircle extends Component {
                 <View style={{flex: 1,justifyContent: 'center',alignItems: 'center'}}>
                         <View style={styles.centerComp}>
                     <Text style={styles.enterName}>Please, enter invite code</Text>
-                    <Input containerStyle={styles.enterNameInput} placeholder={'XXXXXX'} />
+                    <Input containerStyle={styles.enterNameInput}
+                    onChangeText={(passKey) => {
+                        if(passKey.length == 8){
+                            this.setState({disablebtn: false,passKey})
+                        }
+                        else{
+                            this.setState({ passKey,disablebtn: true })
+                        }}}
+                    value={passKey}
+                    placeholder={'XXXXXXXX'} />
                     <Text style={styles.heading2}>Get the code from your Circle's Admin</Text>
-                    <Button buttonStyle={styles.enterNameBtn} title='SUBMIT' />
+                    <Button buttonStyle={styles.enterNameBtn}
+                    disabled={disablebtn}
+                    disabledStyle={styles.enterNameBtn2}
+                    onPress={() => {this.joinCircle()}}
+                    title='SUBMIT' />
                         </View>
                 </View>
             </View>
@@ -70,6 +114,12 @@ const styles = StyleSheet.create({
         // backgroundColor: 'blue'
     },
     enterNameBtn: {
+        marginTop: 20,
+        backgroundColor: '#f74069',
+        borderRadius: 20,
+        width: 150
+    },
+    enterNameBtn2: {
         marginTop: 20,
         backgroundColor: '#fcd0da',
         borderRadius: 20,
