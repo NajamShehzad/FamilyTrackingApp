@@ -4,6 +4,8 @@ import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elemen
 import { Button } from 'react-native-elements';
 import { ImagePicker, Constants, Location, Permissions } from 'expo';
 import axios from 'axios';
+import path from "../../config/Path";
+import { Actions } from "react-native-router-flux";
 
 export default class Login extends React.Component {
 
@@ -68,8 +70,12 @@ export default class Login extends React.Component {
         fullName, email, password, profilePicture: picBase64
       }
       // console.log(body);
-      let userData = await axios.post('https://d5cf7773.ngrok.io/signup', body);
+      let userData = await axios.post(path.SIGNUP, body);
       console.log(userData.data);
+      if(userData.data.success){
+        console.log(userData.data);
+        Actions.loginPage();
+      }
     } catch (err) {
       console.log(err);
     }
