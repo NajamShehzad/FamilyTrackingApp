@@ -85,6 +85,7 @@ class Route extends Component {
       <Router navBar={HeaderBar}>
         <Stack key="root">
           <Scene
+            initial={true}
             key="loginPage"
             component={Login}
             hideNavBar={true}
@@ -95,7 +96,6 @@ class Route extends Component {
             hideNavBar={true}
           />
           <Scene
-            initial={true}
             key="homeScreen"
             component={HomeScreen}
           // hideNavBar={true}
