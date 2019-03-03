@@ -61,6 +61,7 @@ class Route extends Component {
           />
           </Drawer>
           <Scene
+          
             key="createCircleScreen"
             component={CreateCircle}
             hideNavBar={true}
