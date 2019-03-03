@@ -1,6 +1,6 @@
-const getCircle = (data) => {
+const updateCircledata = (data) => {
     return {
-        type: "GET_CIRCLE",
+        type: "UPDATE_CIRCLE_DATA",
         data
     }
 }
@@ -12,6 +12,6 @@ const removeCircleData = () => {
 }
 
 export {
-    getCircle,
-    removeUser
+    updateCircledata,
+    removeCircleData
 }

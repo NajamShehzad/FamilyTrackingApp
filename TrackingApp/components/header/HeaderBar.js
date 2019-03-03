@@ -7,7 +7,8 @@ import { AsyncStorage } from "react-native";
 import Axios from "axios";
 import path from "../../config/Path";
 import Provider from '../../config/Provider';
-
+import {connect} from 'react-redux';
+import {updateCircledata} from '../../redux/actions/authActions' 
 
 class HeaderBar extends Component {
 
@@ -79,6 +80,7 @@ class HeaderBar extends Component {
           {circleArray.length > 0 && circleArray.map((val, index) =>
 
             <ListItem
+            onPress={() => {this.props.updateCircledata(val)}}
               key={index}
               containerStyle={{ borderColor: 'lightgray', borderBottomWidth: 1 }}
               leftAvatar={<TouchableOpacity style={styles.inlineIcons}>
@@ -136,4 +138,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   }
 })
-export default HeaderBar;
+
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateCircledata: (data) => dispatch(updateCircledata(data))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(HeaderBar);

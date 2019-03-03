@@ -2,8 +2,8 @@ import { MapView as Map12, Notifications, Permissions, Location } from 'expo';
 import React, { Component } from "react";
 import MapView, { Circle, Polyline, Marker } from 'react-native-maps'
 import { StyleSheet, Text, View } from 'react-native';
-import { connenct } from 'react-redux';
-
+import { connect } from 'react-redux';
+import authReducers from '../../redux/rootReducer';
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -16,7 +16,8 @@ class HomeScreen extends Component {
             coords: null,
             origin: null,
             destination: null,
-            usersArray: []
+            usersArray: [],
+            circleData: null
         };
     }
 
@@ -30,6 +31,11 @@ class HomeScreen extends Component {
 
     }
 
+    //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps.circleData);
+        this.setState({circleData: nextProps.circleData,circleMembers: nextProps.circleData.circleMembers});
+    }
 
 
 
@@ -122,14 +128,14 @@ class HomeScreen extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.authReducers.user
+        circleData: state.authReducers.data
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateUser: (user) => dispatch(updateUser(user))
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         updateUser: (user) => dispatch(updateUser(user))
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, null)(HomeScreen);
