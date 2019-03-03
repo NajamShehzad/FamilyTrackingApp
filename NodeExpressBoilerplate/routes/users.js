@@ -4,9 +4,9 @@ exports = module.exports = function (app, mongoose) {
   var express = require('express');
   var router = express.Router();
   const cloudinary = require("cloudinary");
-  var {
-    SHA256
-  } = require('crypto-js');
+  var { SHA256 } = require('crypto-js');
+  var jwt = require('jsonwebtoken');
+
 
 
   //Cloudnary Configuration
@@ -47,7 +47,29 @@ exports = module.exports = function (app, mongoose) {
     }
   });
 
-  app.use('/users', router);
+
+
+
+  router.post('/signin', async function (req, res, next) {
+    try {
+      let UserModel = app.db.models.User;
+      let hashedPassword = SHA256(JSON.stringify(req.body.password)).toString()
+      let UserObj = await UserModel.findOne({ email: req.body.email, password: hashedPassword });
+      if (!UserObj) {
+        return res.send({ success: false, message: "email or password in not correct" });
+      }
+
+      saveAuthToken(res, UserObj);
+
+    } catch (err) {
+      res.send({ success: false, message: err.message })
+    }
+  })
+
+
+
+
+  app.use('/', router);
 
 
 
@@ -82,7 +104,20 @@ exports = module.exports = function (app, mongoose) {
     })
   }
 
+  async function saveAuthToken(res, UserObj) {
+    try {
 
+      let databaseToken = jwt.sign({ userName: UserObj.fullName, userId: UserObj._id, }, app.get('passSalt'));
+      let tokenTableData = { databaseToken, fullName: UserObj.fullName, userId: UserObj._id };
+
+      const LoggedinUser = new app.db.models.loggedinUser(tokenTableData);
+      let LoggedInObj = await LoggedinUser.save();
+
+      res.send({ success: true, data: LoggedInObj });
+    } catch (err) {
+      res.send({ success: false, message: err.message })
+    }
+  }
 
 
 };
