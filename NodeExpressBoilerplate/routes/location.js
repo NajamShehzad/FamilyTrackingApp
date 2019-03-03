@@ -8,7 +8,7 @@ exports = module.exports = function (app, mongoose) {
             let CircleModel = app.db.models.Circle;
             let newobj = await CircleModel.findOneAndUpdate(
                 { _id: req.body.circleId, "circleMembers.memberId": req.body.memberId },
-                { $set: { "circleMembers.$.latitude": "254786321", "circleMembers.$.longitude": "254786321" } },
+                { $set: { "circleMembers.$.latitude": req.body.latitude, "circleMembers.$.longitude": req.body.longitude } },
                 { new: true }
             );
             // console.log(newobj)
@@ -20,8 +20,8 @@ exports = module.exports = function (app, mongoose) {
             app.io.emit(req.body.circleId,
                 {
                     memberId: req.body.memberId,
-                    latitude: "121212",
-                    longitude: "12547854"
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude
                 }
             );
 

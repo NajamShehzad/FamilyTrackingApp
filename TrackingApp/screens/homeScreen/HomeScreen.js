@@ -4,6 +4,11 @@ import MapView, { Circle, Polyline, Marker } from 'react-native-maps'
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import authReducers from '../../redux/rootReducer';
+import Axios from 'axios';
+import path from '../../config/Path';
+import Provider from '../../config/Provider';
+import SocketIOClient from 'socket.io-client';
+
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -17,12 +22,21 @@ class HomeScreen extends Component {
             origin: null,
             destination: null,
             usersArray: [],
-            circleData: null
+            circleData: null,
+            circleMembers: [],
+            userData: null
         };
+        this.socket = SocketIOClient(path.BASE_URL);
     }
 
 
+
     componentDidMount() {
+        Provider._asyncGetUserData().then(user => {
+            console.log(user.fullName);
+            this.setState({ userData: user });
+        })
+
 
         this._getLocationAsync();
         setTimeout(() => {
@@ -31,10 +45,16 @@ class HomeScreen extends Component {
 
     }
 
+    onRecivedData(locationData){
+        console.log("Local Data ===>>>",locationData);
+    }
+
+
     //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
     componentWillReceiveProps(nextProps) {
         console.log(nextProps.circleData);
-        this.setState({circleData: nextProps.circleData,circleMembers: nextProps.circleData.circleMembers});
+        this.setState({ circleData: nextProps.circleData, circleMembers: nextProps.circleData.circleMembers });
+        this.socket.on(nextProps.circleData._id, this.onRecivedData);
     }
 
 
@@ -87,15 +107,30 @@ class HomeScreen extends Component {
         })
     }
 
-    handleChange(userLocation) {
-        console.log("User Location ===>", userLocation);
-        let origin = { latitude: userLocation.latitude, longitude: userLocation.longitude };
-        this.setState({ origin })
+    async  handleChange(userLocation) {
+        const { userData, circleData } = this.state;
+        try {
+
+            console.log("User Location ===>", userLocation);
+            let origin = { latitude: userLocation.latitude, longitude: userLocation.longitude };
+            this.setState({ origin })
+            let LocationResponse = await Axios.post(path.UPDATE_LOCATION, { latitude: userLocation.latitude, longitude: userLocation.longitude, memberId: userData._id, circleId: circleData._id })
+            
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     render() {
-        const { location, marker, origin, destination, usersArray } = this.state;
+        const { location, marker, origin, destination, usersArray, circleMembers } = this.state;
         console.log(" ====>>", location);
+        circleMembers.map((data, index) => {
+
+
+            console.log("===>>>>> coreds", { latitude: data.latitude, longitude: data.longitude });
+
+
+        })
         return (
             <MapView
                 showsUserLocation
@@ -112,11 +147,11 @@ class HomeScreen extends Component {
                         coordinate={destination}
                     />
                 }
-                {usersArray.map((data, index) => {
+                {circleMembers.length > 1 && circleMembers.map((data, index) => {
                     return (
                         <Marker
-                            key={index}
-                            coordinate={data.destination}
+                            key={Math.random().toString()}
+                            coordinate={{ latitude: Number(data.latitude), longitude: Number(data.longitude) }}
                         />
                     )
                 })}

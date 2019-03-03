@@ -34,7 +34,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 websocket.on('connection', (socket) => {
-  // console.log('A client just joined on', socket.id);
+  console.log('A client just joined on', socket.id);
 });
 app.io = websocket;
 websocket.on('error', (socket) => {

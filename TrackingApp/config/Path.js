@@ -1,5 +1,5 @@
 export default class path {
-    static BASE_URL = 'https://3e368f72.ngrok.io';
+    static BASE_URL = 'https://bb3c24e8.ngrok.io';
   
     static SIGNUP = path.BASE_URL + '/signup';
 
@@ -12,4 +12,7 @@ export default class path {
     static INVITE_USER = path.BASE_URL + '/user/invite/send';
     
     static JOIN_CIRCLE = path.BASE_URL + '/user/circle/join';
+
+    static UPDATE_LOCATION = path.BASE_URL + '/user/location/update';
+
   }
