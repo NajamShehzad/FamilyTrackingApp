@@ -29,8 +29,8 @@ class CreateCircle extends Component {
                 <View style={styles.centerComp}>
                         
                     <Text style={styles.enterName}>Enter your circle name:</Text>
-                    <Input style={styles.enterNameInput} />
-                    <Button style={styles.enterNameBtn} title='Create' />
+                    <Input containerStyle={styles.enterNameInput} placeholder={'Enter Circle name'} />
+                    <Button buttonStyle={styles.enterNameBtn} title='CREATE' />
                 </View>
             </View>
         );
@@ -48,12 +48,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     enterName: {
-        marginTop: 10   
+        marginTop: 30,
+        marginBottom: 30,
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: 'bold'  
     },
     enterNameInput: {
-
+        width: '70%',
+        paddingLeft: 50,
+        paddingRight: 50,
+        textAlign: 'center'
     },
-    enterNameBtn: {},
+    enterNameBtn: {
+        marginTop: 20,
+        backgroundColor: '#f74069',
+        borderRadius: 20,
+        width: 150
+    },
     centerComp: {
         display: 'flex',
         justifyContent: 'center',
