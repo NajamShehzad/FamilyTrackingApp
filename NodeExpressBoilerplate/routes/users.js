@@ -24,12 +24,23 @@ exports = module.exports = function (app, mongoose) {
   /* POST users listing. */
   router.post('/signup', async function (req, res, next) {
     try {
+
+      if (!req.body.profilePicture) {
+        return res.send({ success: false, message: "Please provide a image" })
+      }
+      if (req.body.profilePicture.path) {
+        var pictureUrl = await uploadImage(req.body.profilePicture.path)
+      } else {
+        var pictureUrl = await uploadImage(req.body.profilePicture);
+      }
+
       let body = {
         fullName: req.body.fullName,
         email: req.body.email,
-        password: SHA256(JSON.stringify(req.body.password)).toString(),
-        pictureUrl: await uploadImage(req.body.profilePicture.path)
+        password: SHA256(JSON.stringify(req.body.password)).toString()
       };
+      body.pictureUrl = pictureUrl;
+
 
       let User = new app.db.models.User(body);
       let newUser = await User.save()

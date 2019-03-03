@@ -3,6 +3,7 @@ import { View, Text, Image, TextInput, Alert, StyleSheet, Dimensions, TouchableO
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { ImagePicker, Constants, Location, Permissions } from 'expo';
+import axios from 'axios';
 
 export default class Login extends React.Component {
 
@@ -14,6 +15,7 @@ export default class Login extends React.Component {
     profilePicBlob: '',
     nextStep: false,
     contactNum: '',
+    picBase64: '',
     error: false,
     image: null,
     blob: false,
@@ -41,12 +43,47 @@ export default class Login extends React.Component {
   async pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 4]
+      aspect: [4, 4],
+      base64: true
     });
     if (!result.cancelled) {
-      this.setState({ profilePicUrl: result.uri })
+      this.setState(
+        {
+          profilePicUrl: result.uri,
+          picBase64: "data:image/jpeg;base64," + result.base64
+        }
+      )
     }
+    // console.log(result);
   };
+
+
+  //SignUp Function
+
+  signup = async () => {
+    try {
+
+      const { fullName, password, picBase64, email } = this.state;
+      let body = {
+        fullName, email, password, profilePicture: picBase64
+      }
+      // console.log(body);
+      let userData = await axios.post('https://d5cf7773.ngrok.io/signup', body);
+      console.log(userData.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
+
+
+
+
+
+
+
 
 
   render() {
@@ -82,14 +119,12 @@ export default class Login extends React.Component {
             onChangeText={(password) => this.setState({ password })}
             value={this.state.text}
             placeholder="Password"
+            secureTextEntry={true}
           />
           <Button
             title="Create Account"
             buttonStyle={styles.loginButton}
-            onPress={() => {
-              this.props.navigation.navigate("MapView");
-              // Alert.alert(this.state.text) 
-            }} />
+            onPress={this.signup} />
         </View>
 
       </View>
