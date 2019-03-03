@@ -109,6 +109,7 @@ class Route extends Component {
             // hideNavBar={true}
           />
           <Scene
+           initial= {true}
             key="createCircleScreen"
             component={CreateCircle}
             title="Signup"
@@ -121,7 +122,6 @@ class Route extends Component {
             hideNavBar={true}
           />
           <Scene
-           initial= {true}
             key="inviteNewMember"
             component={inviteNewMember}
             title="Signup"
