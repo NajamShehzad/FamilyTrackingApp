@@ -6,7 +6,7 @@ exports = module.exports = function (app, mongoose) {
     router.post('/create', async function (req, res, next) {
         try {
 
-            let body = req.body;
+            let body = req.body.data;
             if (!body.ownerId) {
                 return res.send({ success: false, message: "Please Provide OwnerId" });
             }
@@ -21,10 +21,9 @@ exports = module.exports = function (app, mongoose) {
             }
             body.circleMembers = [];
 
-            //Getting User info
             let userObj = await getUserInfo(body.ownerId);
             body.circleMembers.push(userObj);
-            //Saving new Cirlce
+
             let CircleModel = new app.db.models.Circle(body);
             let newCirlce = await CircleModel.save();
             res.send({ success: true, data: newCirlce });
@@ -35,7 +34,7 @@ exports = module.exports = function (app, mongoose) {
 
     router.post('/join', async function (req, res, next) {
         try {
-            let body = req.body;
+            let body = req.body.data;
             if (!body.circlePassword) {
                 return res.send({ success: false, message: "Please Provide CirclePassword" });
             }
@@ -44,7 +43,8 @@ exports = module.exports = function (app, mongoose) {
             }
             let memberToSave = await getUserInfo(body.memberId);
             let CircleObj = await checkPassword(body.circlePassword);
-            saveMemberToCircle(res, memberToSave,body.circlePassword);
+
+            saveMemberToCircle(res, memberToSave, body.circlePassword);
         } catch (err) {
             res.send({ success: false, message: err.message })
         }
@@ -55,7 +55,7 @@ exports = module.exports = function (app, mongoose) {
 
 
 
-    app.use('/circle', router);
+    app.use('/user/circle', router);
 
 
     //Helper fucntions
