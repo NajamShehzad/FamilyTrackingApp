@@ -9,15 +9,15 @@ exports = module.exports = function (app, mongoose) {
         },
         memberId: {
             type: String,
-            required: true
+            required: true,
         },
         latitude: {
             type: String,
-            required: true
+            // required: true
         },
         logitude: {
             type: String,
-            required: true
+            // required: true
         },
         pictureUrl: {
             type: String,

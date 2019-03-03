@@ -43,23 +43,8 @@ exports = module.exports = function (app, mongoose) {
                 return res.send({ success: false, message: "Please Provide memberId" });
             }
             let memberToSave = await getUserInfo(body.memberId);
-
-            let CircleModel = app.db.models.Circle;
-
-            let CircleObj = await CircleModel.findOneAndUpdate(
-                { password: body.circlePassword },
-                {
-                    $push: { circleMembers: memberToSave }
-                },
-                { new: true }
-            );
-            console.log(CircleObj);
-            if (!CircleObj) {
-                return res.send({ success: false, message: "Provided Password is invalid" });
-            }
-
-            res.send({ success: true, data: CircleObj });
-
+            let CircleObj = await checkPassword(body.circlePassword);
+            saveMemberToCircle(res, memberToSave,body.circlePassword);
         } catch (err) {
             res.send({ success: false, message: err.message })
         }
@@ -77,9 +62,8 @@ exports = module.exports = function (app, mongoose) {
 
 
 
-
+    //Get User info
     /**
-     * 
      * @param {String} userId ownerId to get his/her info
      */
     async function getUserInfo(userId) {
@@ -104,9 +88,52 @@ exports = module.exports = function (app, mongoose) {
         })
     }
 
+    async function checkPassword(password) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                console.log(password);
+                let CircleModel = app.db.models.Circle;
+                let CircleObj = await CircleModel.findOne({ password: password });
+                if (!CircleObj) {
+                    console.log(CircleObj)
+                    return reject({ message: "Password is invalid" })
+                }
+                resolve(CircleObj)
+            } catch (err) {
+                reject(err)
+            }
+        })
+    }
 
 
 
+    //Save Member Function 
+
+    /**
+     * @param {Object} res object to send response
+     * @param {Object} memberToSave to save in member array
+     * @param {String} password to get circle info
+    */
+    async function saveMemberToCircle(res, memberToSave, password) {
+        try {
+
+            let CircleModel = app.db.models.Circle;
+            let updatedCircle = await CircleModel.findOneAndUpdate(
+                { password: password, 'circleMembers.memberId': { $ne: memberToSave.memberId } },
+                {
+                    $push: { circleMembers: memberToSave }
+                },
+                { new: true }
+            );
+            console.log(updatedCircle);
+            if (!updatedCircle) {
+                return res.send({ success: false, message: "You are Already a member of this circle" });
+            }
+            res.send({ success: true, data: updatedCircle });
+        } catch (err) {
+            res.send({ success: false, message: err.message })
+        }
+    }
 
 }
 
