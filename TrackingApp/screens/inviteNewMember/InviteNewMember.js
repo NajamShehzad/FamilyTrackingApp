@@ -31,7 +31,9 @@ class InviteNewMember extends Component {
           <Avatar overlayContainerStyle={{ backgroundColor: 'transparent' }} size={300} icon={{ name: "group-add", color: 'lightgray' }} />
           <Text style={styles.shareCodeTxt}>Share this code with people you want to join your circle</Text>
           <Text style={styles.textCode}>{password}</Text>
+        <Input containerStyle={styles.invitedpersonEmail} placeholder={'XXXXXX'} />
         </View>
+        
 
         <Button buttonStyle={styles.sendBtn} title={'SEND'} />
       </View>
@@ -53,6 +55,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'green',
     fontSize: 20
+  },
+  invitedpersonEmail: {
+      width: 300,
+      paddingLeft: 50,
+      paddingRight: 50,
+      // backgroundColor: 'blue'
   },
   sendBtn: {
     marginTop: 20,
