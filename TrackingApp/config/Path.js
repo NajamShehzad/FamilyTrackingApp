@@ -15,4 +15,5 @@ export default class path {
 
     static UPDATE_LOCATION = path.BASE_URL + '/user/location/update';
 
+    static SET_LOCATION = path.BASE_URL + '/user/location/set';
   }
