@@ -101,7 +101,7 @@ export default class Login extends React.Component {
       behavior = "padding";
     }
     return (
-      <View style={{ borderColor: 'blue', flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ borderColor: 'blue', flex: 1, alignItems: "center", justifyContent: "center", ...styles.container }}>
 
         <View
           style={{ flex: 1, justifyContent: 'center', }}
@@ -153,11 +153,10 @@ var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    borderColor: 'red',
+    borderLeftWidth: 10,
+    borderRightWidth: 5,
+},
   loginInput: {
     fontSize: 15,
     color: "#1b3815",

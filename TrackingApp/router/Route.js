@@ -18,6 +18,9 @@ const SideMenu = props => {
 
   return (
     <View>
+      <View>
+        
+      </View>
       <ListItem
        onPress={() => { AsyncStorage.removeItem('userData');Actions.replace('loginPage') }}
         containerStyle={{borderColor: 'lightgray',borderWidth: 1}}

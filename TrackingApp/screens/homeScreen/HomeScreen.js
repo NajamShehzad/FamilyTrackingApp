@@ -9,8 +9,8 @@ import path from "../../config/Path";
 import Provider from "../../config/Provider";
 import SocketIOClient from "socket.io-client";
 import markerImage from "../../assets/markerImage.png";
-import { AsyncStorage } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { AsyncStorage } from "react-native";
+import { Actions } from "react-native-router-flux";
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -33,6 +33,7 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
+    Location.wa;
     Provider._asyncGetUserData().then(user => {
       console.log(user.fullName);
       this.setState({ userData: user }, () => {
@@ -100,14 +101,7 @@ class HomeScreen extends Component {
           longitude,
           userId: userData._id
         });
-        console.log(setLocation.data);
-        console.log(setLocation.data);
-        if(setLocation.data.success){
-            AsyncStorage.setItem('userData',JSON.stringify(setLocation.data.data));
-        }
-        else if(!setLocation.data.success){
-            alert(setLocation.data.message);
-        }
+        console.log(setLocation);
         console.log("location+++++==================>");
       }
     );
@@ -128,22 +122,27 @@ class HomeScreen extends Component {
   }
 
   async handleChange(userLocation) {
+    console.log("Userlocatio change function", userLocation);
     const { userData, circleData } = this.state;
     try {
-      console.log("User Location ===>", userLocation);
+      console.log(
+        "User Location ===>",
+        userLocation.nativeEvent.coordinate.latitude
+      );
       let origin = {
         latitude: userLocation.latitude,
         longitude: userLocation.longitude
       };
       this.setState({ origin });
       let LocationResponse = await Axios.post(path.UPDATE_LOCATION, {
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude,
+        latitude: userLocation.nativeEvent.coordinate.latitude,
+        longitude: userLocation.nativeEvent.coordinate.longitude,
         memberId: userData._id,
         circleId: circleData._id
       });
     } catch (err) {
       console.log(err.message);
+      console.log("Userlocatio change function");
     }
   }
 
@@ -170,7 +169,7 @@ class HomeScreen extends Component {
         onMapReady={() => {
           // this.showMarkers()
         }}
-        onUserLocationonChange={userLocation => this.handleChange(userLocation)}
+        onUserLocationChange={userLocation => this.handleChange(userLocation)}
         style={{ flex: 1 }}
         initialRegion={{
           latitude: location.coords.latitude,
@@ -191,31 +190,25 @@ class HomeScreen extends Component {
                   longitude: Number(data.longitude)
                 }}
               >
+                
                 <View
                   style={{
                     width: 60,
                     height: 60,
-                    // backgroundColor: Colors.primaryLight,
-                    // borderColor: Colors.primaryLight,
-                    // borderRadius: 1000,
-                    // borderWidth: 1,
                     justifyContent: "center",
                     alignItems: "center"
                   }}
                 >
+                  
                   <Image
                     source={markerImage}
                     style={{ width: 50, height: 50 }}
-                    // resizeMode="contain"
                   />
                   <View style={{ position: "absolute", top: 10 }}>
+                    
                     <Image
                       source={{ uri: data.pictureUrl }}
-                      style={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: 10
-                      }}
+                      style={{ width: 28, height: 28, borderRadius: 10 }}
                     />
                   </View>
                 </View>

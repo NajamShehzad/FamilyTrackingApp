@@ -1,5 +1,5 @@
 export default class path {
-    static BASE_URL = 'https://f0665f6f.ngrok.io';
+    static BASE_URL = 'https://agile-wildwood-59857.herokuapp.com';
   
     static SIGNUP = path.BASE_URL + '/signup';
 

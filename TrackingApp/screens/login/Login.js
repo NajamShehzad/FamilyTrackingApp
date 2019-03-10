@@ -125,7 +125,8 @@ var width = Dimensions.get('window').width;
 const styles = StyleSheet.create({
     container: {
         borderColor: 'red',
-        borderLeftWidth: 5,
+        borderLeftWidth: 10,
+        borderRightWidth: 5,
     },
     loginInput: {
         fontSize: 15,
