@@ -78,7 +78,6 @@ class HeaderBar extends Component {
         />
         {dropMenu && <View style={styles.dropMenu}>
           {circleArray.length > 0 && circleArray.map((val, index) =>
-
             <ListItem
             onPress={() => {this.props.updateCircledata(val)}}
               key={index}
