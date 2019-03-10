@@ -9,6 +9,7 @@ import path from "../../config/Path";
 import Provider from "../../config/Provider";
 import SocketIOClient from "socket.io-client";
 import markerImage from "../../assets/markerImage.png";
+import BottomBar from '../../components/bottomBar2/BottomBar';
 import { AsyncStorage } from "react-native";
 import { Actions } from "react-native-router-flux";
 
@@ -35,7 +36,7 @@ class HomeScreen extends Component {
   componentDidMount() {
     Location.wa;
     Provider._asyncGetUserData().then(user => {
-      console.log(user.fullName);
+    //   console.log(user.fullName);
       this.setState({ userData: user }, () => {
         this._getLocationAsync();
       });
@@ -44,8 +45,8 @@ class HomeScreen extends Component {
 
   onRecivedData(locationData) {
     const { circleMembers } = this.state;
-    console.log("Local Data ===>>>", locationData);
-    console.log(circleMembers);
+    // console.log("Local Data ===>>>", locationData);
+    // console.log(circleMembers);
     let newArray = circleMembers.map(memberObj => {
       if (locationData.memberId == memberObj.memberId) {
         memberObj.latitude = locationData.latitude;
@@ -54,13 +55,13 @@ class HomeScreen extends Component {
       }
       return memberObj;
     });
-    console.log(newArray);
+    // console.log(newArray);
     this.setState({ circleMembers: newArray });
   }
 
   //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.circleData);
+    // console.log(nextProps.circleData);
     this.setState({
       circleData: nextProps.circleData,
       circleMembers: nextProps.circleData.circleMembers
@@ -86,7 +87,7 @@ class HomeScreen extends Component {
     // console.log("Working2");
     // console.log(location);
     let cordss = { latitude, longitude };
-    console.log("Working3", cordss);
+    // console.log("Working3", cordss);
 
     this.setState(
       {
@@ -101,8 +102,8 @@ class HomeScreen extends Component {
           longitude,
           userId: userData._id
         });
-        console.log(setLocation);
-        console.log("location+++++==================>");
+        // console.log(setLocation);
+        // console.log("location+++++==================>");
       }
     );
   };
@@ -122,13 +123,13 @@ class HomeScreen extends Component {
   }
 
   async handleChange(userLocation) {
-    console.log("Userlocatio change function", userLocation);
+    // console.log("Userlocatio change function", userLocation);
     const { userData, circleData } = this.state;
     try {
-      console.log(
-        "User Location ===>",
-        userLocation.nativeEvent.coordinate.latitude
-      );
+    //   console.log(
+    //     "User Location ===>",
+    //     userLocation.nativeEvent.coordinate.latitude
+    //   );
       let origin = {
         latitude: userLocation.latitude,
         longitude: userLocation.longitude
@@ -141,8 +142,8 @@ class HomeScreen extends Component {
         circleId: circleData._id
       });
     } catch (err) {
-      console.log(err.message);
-      console.log("Userlocatio change function");
+    //   console.log(err.message);
+    //   console.log("Userlocatio change function");
     }
   }
 
@@ -155,13 +156,13 @@ class HomeScreen extends Component {
       usersArray,
       circleMembers
     } = this.state;
-    console.log(" ====>>", location);
-    circleMembers.map((data, index) => {
-      console.log("===>>>>> coreds", {
-        latitude: data.latitude,
-        longitude: data.longitude
-      });
-    });
+    // console.log(" ====>>", location);
+    // circleMembers.map((data, index) => {
+    //   console.log("===>>>>> coreds", {
+    //     latitude: data.latitude,
+    //     longitude: data.longitude
+    //   });
+    // });
     return (
       <MapView
         showsUserLocation
@@ -181,7 +182,7 @@ class HomeScreen extends Component {
         {destination && <Marker coordinate={destination} />}
         {circleMembers.length > 1 &&
           circleMembers.map((data, index) => {
-            console.log(data);
+            // console.log(data);
             return (
               <Marker
                 key={Math.random().toString()}
@@ -215,6 +216,9 @@ class HomeScreen extends Component {
               </Marker>
             );
           })}
+
+
+          <BottomBar />
       </MapView>
     );
   }
