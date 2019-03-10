@@ -8,6 +8,8 @@ import axios from 'axios';
 import path from "../../config/Path";
 import { AsyncStorage } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import FamilyGpsIcon from '../../assets/FamilyGpsIcon.png';
+
 
 export default class Login extends React.Component {
 
@@ -60,17 +62,16 @@ componentWillMount = () => {
       behavior = "padding";
     }
         return (
-            <View style={{ borderColor: 'blue', flex: 1, alignItems: "center", justifyContent: "center" }}>
+            <View style={{ borderColor: 'blue', flex: 1, alignItems: "center", justifyContent: "center" ,...styles.container}}>
 
                 <View
                     style={{ flex: 1, justifyContent: 'center', }}
                 >
 
-                    <Text
-                        style={{ fontSize: 60, fontWeight: "bold", textAlign: "center", color: "#1b3815" }}
-                    >
-                        Family GPS
-                    </Text>
+            <Image
+              source={FamilyGpsIcon}
+              style={styles.profilePic}
+            />
 
                 </View>
                 <View style={{ flex: 1 }}>
@@ -101,6 +102,8 @@ componentWillMount = () => {
                             type='outline'
                             title="Signup"
                             color="#d83634"
+                            titleStyle={{color: "#d83634"}}
+                            containerStyle={{borderColor: "#d83634"}}
                             buttonStyle={styles.signupButton}
                             onPress={() => {
                                 // this.signin();
@@ -121,10 +124,8 @@ var width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        borderColor: 'red',
+        borderLeftWidth: 5,
     },
     loginInput: {
         fontSize: 15,
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
     signupButton: {
         height: 50,
         // backgroundColor: "#d83634",
+        borderColor: "#d83634",
         borderRadius: 27,
         marginTop: 5,
         marginBottom: 5,
@@ -170,6 +172,11 @@ const styles = StyleSheet.create({
         paddingLeft: 35,
         paddingRight: 35,
         maxWidth: 400
-    }
+    },
+    profilePic: {
+      width: 180,
+      height: 230,
+      marginBottom: 30
+    },
 
 });
