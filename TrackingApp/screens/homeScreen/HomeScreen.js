@@ -1,13 +1,16 @@
 import { MapView as Map12, Notifications, Permissions, Location } from 'expo';
 import React, { Component } from "react";
 import MapView, { Circle, Polyline, Marker } from 'react-native-maps'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import authReducers from '../../redux/rootReducer';
 import Axios from 'axios';
 import path from '../../config/Path';
 import Provider from '../../config/Provider';
 import SocketIOClient from 'socket.io-client';
+import markerImage from '../../assets/markerImage.png';
+
+
 
 
 class HomeScreen extends Component {
@@ -106,28 +109,16 @@ class HomeScreen extends Component {
             </ Circle>
         )
     }
-    showMarkers() {
-        this.setState({
-            usersArray: [
-                { destination: { latitude: 24.986194, longitude: 67.092095 } },
-                { destination: { latitude: 24.941293, longitude: 67.031095 } },
-                { destination: { latitude: 24.946293, longitude: 67.032094 } },
-                { destination: { latitude: 24.976274, longitude: 67.037095 } },
-                { destination: { latitude: 24.946864, longitude: 67.032095 } },
-                { destination: { latitude: 24.946998, longitude: 67.085095 } },
-                { destination: { latitude: 24.946291, longitude: 67.085095 } },
-            ]
-        })
-    }
+    
 
     async  handleChange(userLocation) {
         const { userData, circleData } = this.state;
         try {
 
             console.log("User Location ===>", userLocation);
-            // let origin = { latitude: userLocation.latitude, longitude: userLocation.longitude };
-            // this.setState({ origin })
-            // let LocationResponse = await Axios.post(path.UPDATE_LOCATION, { latitude: userLocation.latitude, longitude: userLocation.longitude, memberId: userData._id, circleId: circleData._id })
+            let origin = { latitude: userLocation.latitude, longitude: userLocation.longitude };
+            this.setState({ origin })
+            let LocationResponse = await Axios.post(path.UPDATE_LOCATION, { latitude: userLocation.latitude, longitude: userLocation.longitude, memberId: userData._id, circleId: circleData._id })
 
         } catch (err) {
             console.log(err.message);
@@ -147,13 +138,13 @@ class HomeScreen extends Component {
         return (
             <MapView
                 showsUserLocation
-                followsUserLocation
+                // followsUserLocation
                 onMapReady={() => {
                     // this.showMarkers()
                 }}
                 onUserLocationonChange={(userLocation => this.handleChange(userLocation))}
                 style={{ flex: 1 }}
-                region={{ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
+                initialRegion={{ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}
             >
                 {destination &&
                     <Marker
@@ -161,11 +152,42 @@ class HomeScreen extends Component {
                     />
                 }
                 {circleMembers.length > 1 && circleMembers.map((data, index) => {
+                    console.log(data);
                     return (
                         <Marker
                             key={Math.random().toString()}
                             coordinate={{ latitude: Number(data.latitude), longitude: Number(data.longitude) }}
-                        />
+                        >
+
+<View
+            style={{
+              width: 60,
+              height: 60,
+              // backgroundColor: Colors.primaryLight,
+              // borderColor: Colors.primaryLight,
+              // borderRadius: 1000,
+              // borderWidth: 1,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <Image
+              source={markerImage}
+              style={{ width: 50, height: 50 }}
+              // resizeMode="contain"
+            />
+            <View style={{ position: "absolute", top: 10 }}>
+              <Image
+                source={{uri: data.pictureUrl}}
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 10
+                }}
+              />
+            </View>
+          </View>
+                    </Marker>
                     )
                 })}
             </MapView>

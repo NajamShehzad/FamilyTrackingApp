@@ -6,7 +6,7 @@ import { ImagePicker, Constants, Location, Permissions } from 'expo';
 import axios from 'axios';
 import path from "../../config/Path";
 import { Actions } from "react-native-router-flux";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 export default class Login extends React.Component {
