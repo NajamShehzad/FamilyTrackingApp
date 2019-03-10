@@ -78,6 +78,29 @@ exports = module.exports = function (app, mongoose) {
     }
   })
 
+  router.post('/user/location/set', async function (req, res, next) {
+    try {
+
+      let UserModel = app.db.models.User;
+      let UserNewObj = await UserModel.findOneAndUpdate(
+        { _id: req.body.userId },
+        {
+          $set:
+          {
+            longitude: req.body.longitude,
+            latitude: req.body.latitude
+          }
+        }
+      );
+      if (!UserNewObj) {
+        return res.send({ success: false, message: "User id is not valid" });
+      }
+      res.send({ success: true, data: UserNewObj });
+    } catch (err) {
+      res.send({ success: false, message: err.message })
+    }
+  })
+
 
 
 
