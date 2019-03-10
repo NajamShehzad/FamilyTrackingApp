@@ -1,5 +1,5 @@
 export default class path {
-    static BASE_URL = 'https://2718052b.ngrok.io';
+    static BASE_URL = 'https://2aa84782.ngrok.io';
   
     static SIGNUP = path.BASE_URL + '/signup';
 

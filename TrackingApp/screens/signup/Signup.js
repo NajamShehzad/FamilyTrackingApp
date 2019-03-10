@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text, Image, TextInput, Alert, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, Alert, StyleSheet, Dimensions, TouchableOpacity, KeyboardAvoidingView , Platform } from "react-native";
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { Button } from 'react-native-elements';
 import { ImagePicker, Constants, Location, Permissions } from 'expo';
 import axios from 'axios';
 import path from "../../config/Path";
 import { Actions } from "react-native-router-flux";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export default class Login extends React.Component {
 
@@ -94,11 +96,15 @@ export default class Login extends React.Component {
 
   render() {
     const { profilePicUrl } = this.state;
+    let behavior = "";
+    if (Platform.OS == "ios") {
+      behavior = "padding";
+    }
     return (
       <View style={{ borderColor: 'blue', flex: 1, alignItems: "center", justifyContent: "center" }}>
 
         <View
-          style={{ flex: 1 }}
+          style={{ flex: 1, justifyContent: 'center', }}
         >
           <TouchableOpacity onPress={() => this.pickImage()}>
             <Image
@@ -108,6 +114,8 @@ export default class Login extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }}>
+        <KeyboardAwareScrollView>
+        <KeyboardAvoidingView behavior={behavior}>
           <TextInput
             style={styles.loginInput}
             onChangeText={(fullName) => this.setState({ fullName })}
@@ -131,6 +139,8 @@ export default class Login extends React.Component {
             title="Create Account"
             buttonStyle={styles.loginButton}
             onPress={this.signup} />
+            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
         </View>
 
       </View>

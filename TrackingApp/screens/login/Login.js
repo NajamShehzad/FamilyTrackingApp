@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TextInput, Alert, StyleSheet, Dimensions } from "react-native";
+import { View, Text, Image, TextInput, Alert, StyleSheet, Dimensions, Platform, KeyboardAvoidingView } from "react-native";
 import { StackActions, NavigationActions } from 'react-navigation';
 import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 import { Button } from 'react-native-elements';
@@ -7,6 +7,7 @@ import { Actions } from "react-native-router-flux";
 import axios from 'axios';
 import path from "../../config/Path";
 import { AsyncStorage } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class Login extends React.Component {
 
@@ -54,11 +55,15 @@ componentWillMount = () => {
     }
 
     render() {
+        let behavior = "";
+    if (Platform.OS == "ios") {
+      behavior = "padding";
+    }
         return (
             <View style={{ borderColor: 'blue', flex: 1, alignItems: "center", justifyContent: "center" }}>
 
                 <View
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, justifyContent: 'center', }}
                 >
 
                     <Text
@@ -69,6 +74,8 @@ componentWillMount = () => {
 
                 </View>
                 <View style={{ flex: 1 }}>
+        <KeyboardAwareScrollView>
+        <KeyboardAvoidingView behavior={behavior}>
                     <TextInput
                         style={styles.loginInput}
                         onChangeText={(text) => this.setState({ email: text })}
@@ -82,17 +89,7 @@ componentWillMount = () => {
                         placeholder="Enter Your Passowrd"
                         secureTextEntry={true}
                     />
-                    <Button
-                        type='outline'
-                        title="Signup"
-                        buttonStyle={styles.loginButton}
-                        onPress={() => {
-                            this.signin();
-                            // Actions.signupPage();
-                        }} />
-                    <Button
-
-                        title="Sign In"
+                    <Button title="Sign In"
                         buttonStyle={styles.loginButton}
                         onPress={() => {
                             this.signin();
@@ -100,6 +97,18 @@ componentWillMount = () => {
                             // Actions.replace('homeScreen');
                             // Alert.alert(this.state.text) 
                         }} />
+                        <Button
+                            type='outline'
+                            title="Signup"
+                            color="#d83634"
+                            buttonStyle={styles.signupButton}
+                            onPress={() => {
+                                // this.signin();
+                                Actions.signupPage();
+                            }} />
+
+            </KeyboardAvoidingView>
+            </KeyboardAwareScrollView>
                 </View>
 
             </View>
@@ -119,7 +128,7 @@ const styles = StyleSheet.create({
     },
     loginInput: {
         fontSize: 15,
-        color: "#1b3815",
+        color: '#1b3815',
         width: width * 0.8,
         height: 50,
         backgroundColor: "#ebebeb",
@@ -137,6 +146,20 @@ const styles = StyleSheet.create({
     loginButton: {
         height: 50,
         backgroundColor: "#d83634",
+        borderRadius: 27,
+        marginTop: 5,
+        marginBottom: 5,
+        marginLeft: 0,
+        marginRight: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        paddingLeft: 35,
+        paddingRight: 35,
+        maxWidth: 400
+    },
+    signupButton: {
+        height: 50,
+        // backgroundColor: "#d83634",
         borderRadius: 27,
         marginTop: 5,
         marginBottom: 5,
