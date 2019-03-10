@@ -27,6 +27,7 @@ class HomeScreen extends Component {
             userData: null
         };
         this.socket = SocketIOClient(path.BASE_URL);
+        this.onRecivedData = this.onRecivedData.bind(this);
     }
 
 
@@ -45,8 +46,20 @@ class HomeScreen extends Component {
 
     }
 
-    onRecivedData(locationData){
-        console.log("Local Data ===>>>",locationData);
+    onRecivedData(locationData) {
+        const { circleMembers } = this.state;
+        console.log("Local Data ===>>>", locationData);
+        console.log(circleMembers);
+        let newArray = circleMembers.map(memberObj => {
+            if (locationData.memberId == memberObj.memberId) {
+                memberObj.latitude = locationData.latitude;
+                memberObj.longitude = locationData.longitude;
+                return memberObj;
+            }
+            return memberObj;
+        })
+        console.log(newArray);
+        this.setState({ circleMembers: newArray });
     }
 
 
@@ -112,10 +125,10 @@ class HomeScreen extends Component {
         try {
 
             console.log("User Location ===>", userLocation);
-            let origin = { latitude: userLocation.latitude, longitude: userLocation.longitude };
-            this.setState({ origin })
-            let LocationResponse = await Axios.post(path.UPDATE_LOCATION, { latitude: userLocation.latitude, longitude: userLocation.longitude, memberId: userData._id, circleId: circleData._id })
-            
+            // let origin = { latitude: userLocation.latitude, longitude: userLocation.longitude };
+            // this.setState({ origin })
+            // let LocationResponse = await Axios.post(path.UPDATE_LOCATION, { latitude: userLocation.latitude, longitude: userLocation.longitude, memberId: userData._id, circleId: circleData._id })
+
         } catch (err) {
             console.log(err.message);
         }
@@ -136,7 +149,7 @@ class HomeScreen extends Component {
                 showsUserLocation
                 followsUserLocation
                 onMapReady={() => {
-                    this.showMarkers()
+                    // this.showMarkers()
                 }}
                 onUserLocationonChange={(userLocation => this.handleChange(userLocation))}
                 style={{ flex: 1 }}

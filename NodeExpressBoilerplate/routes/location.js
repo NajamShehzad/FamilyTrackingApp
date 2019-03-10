@@ -6,11 +6,11 @@ exports = module.exports = function (app, mongoose) {
     router.post('/update', async function (req, res, next) {
         try {
             let CircleModel = app.db.models.Circle;
-            let newobj = await CircleModel.findOneAndUpdate(
-                { _id: req.body.circleId, "circleMembers.memberId": req.body.memberId },
-                { $set: { "circleMembers.$.latitude": req.body.latitude, "circleMembers.$.longitude": req.body.longitude } },
-                { new: true }
-            );
+            // let newobj = await CircleModel.findOneAndUpdate(
+            //     { _id: req.body.circleId, "circleMembers.memberId": req.body.memberId },
+            //     { $set: { "circleMembers.$.latitude": req.body.latitude, "circleMembers.$.longitude": req.body.longitude } },
+            //     { new: true }
+            // );
             // console.log(newobj)
 
             res.send({
